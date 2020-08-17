@@ -1,0 +1,80 @@
+@charset "utf-8";
+main article {
+    border-bottom: 0.12rem solid #f4f5f6;
+}
+
+main article video {
+    width: 100%;
+}
+
+main article .info {
+    width: 100%;
+    height: 1.13rem;
+    padding-left: 0.3rem;
+    padding-right: 0.4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+main article .info .usercard {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+main article .info .usercard .avatar {
+    width: 0.72rem;
+    height: 0.72rem;
+    border-radius: 50%;
+}
+
+main article .info .usercard p {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 0.26rem;
+    line-height: 1;
+}
+
+main article .info .usercard p i {
+    width: 2px;
+    height: 0.2rem;
+    border: 1px solid #e8e8e8;
+}
+
+main article .info .usercard .username {
+    font-family: "黑体";
+    font-weight: bold;
+    margin: 0 0.16rem;
+}
+
+main article .info .usercard .follow {
+    margin: 0 0.18rem;
+    color: #f85959;
+}
+
+main article .info .other {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+main article .info .other .comment {
+    display: flex;
+    align-items: center;
+    margin-right: 0.32rem;
+}
+
+main article .info .other .comment .iconfont {
+    font-size: 0.4rem;
+}
+
+main article .info .other .comment em {
+    margin: 0 0.14rem;
+    font-size: 0.26rem;
+}
+
+main article .info .other>.iconfont {
+    font-size: 0.34rem;
+}
