@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas id="mycanvas" width="400" height="400" style="background: rgb(181, 230, 135)"></canvas>
+    <script>
+
+        /**
+         * @description: 根据三个点的坐标计算ctx.arc()的参数
+         * @param x0{number} 起点的x坐标
+         * @param y0{number} 起点的y坐标
+         * @param x1{number} 终点的x坐标
+         * @param y1{number} 终点的y坐标
+         * @param x2{number} 弧上点的x坐标
+         * @param y2{number} 弧上点的y坐标
+         * @return {Array} 返回参数列表[x, y, radius, startAngle, endAngle, anticlockwise]
+         */
+        const calcArcArgs = function (x0, y0, x1, y1, x2, y2) {
+            let x = ((x0 ** 2 + y0 ** 2) * (y1 - y2) + (x1 ** 2 + y1 ** 2) * (y2 - y0) + (x2 ** 2 + y2 ** 2) * (y0 - y1)) / (2 * (x0 * (y1 - y2) + x1 * (y2 - y0) + x2 * (y0 - y1)));
+            let y = ((x0 ** 2 + y0 ** 2) * (x1 - x2) + (x1 ** 2 + y1 ** 2) * (x2 - x0) + (x2 ** 2 + y2 ** 2) * (x0 - x1)) / (2 * (y0 * (x1 - x2) + y1 * (x2 - x0) + y2 * (x0 - x1)));
+            let a = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2); // 三角形中起点所对边的长
+            let b = Math.sqrt((x2 - x0) ** 2 + (y2 - y0) ** 2); // 三角形中终点所对边的长，若等腰则a==b
+            let c = Math.sqrt((x1 - x0) ** 2 + (y1 - y0) ** 2); // 三角形中弧上点所对边的长
+            let radius = a * b * c / Math.sqrt((a + b + c) * (a + b - c) * (a + c - b) * (b + c - a));
+            let startAngle = Math.atan2(y0 - y, x0 - x);
+            let endAngle = Math.atan2(y1 - y, x1 - x);
+            let anticlockwise = !!((x1 < x0) ^ ((x2 * y1 - x2 * y0 + y0 * x1 - x0 * y1) / (x1 - x0) < y2));
+            return [x, y, radius, startAngle, endAngle, anticlockwise];
+        }
+
+        // 使用例子
+        const drawArc = function (x0, y0, x1, y1, x2, y2, ctx) {
+            ctx.fillStyle = 'blue';
+            ctx.fillRect(x0 - 2, y0 - 2, 4, 4);
+            ctx.fillRect(x1 - 2, y1 - 2, 4, 4);
+            ctx.fillRect(x2 - 2, y2 - 2, 4, 4);
+            ctx.beginPath();
+            ctx.arc(...calcArcArgs(x0, y0, x1, y1, x2, y2));
+            ctx.stroke();
+        }
+
+        let canvas = document.getElementById('mycanvas');
+        let ctx = canvas.getContext('2d');
+        let [x0, y0, x1, y1, x2, y2] = [200, 200, 300, 200, 250, 100];
+        let i = 0;
+        setTimeout(function go() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawArc(x0 + i / 3, y0 - i / 3, x1 - i / 5, y1 + i / 2, x2 - i / 4, y2 + i, ctx);
+            if (i < 260) {
+                setTimeout(go, 200);
+            }
+            i += 10;
+        }, 200);
+    </script>
+</body>
+
+</html>
